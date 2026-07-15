@@ -11,6 +11,9 @@ param(
 $script:EnumCadRoot = $PSScriptRoot
 if (-not $script:EnumCadRoot) { $script:EnumCadRoot = Get-Location }
 
+# Import Fetch Module
+Import-Module FetchPS -Force
+
 # Import Config Module
 Import-Module (Join-Path $script:EnumCadRoot "modules/enumcad.config.psm1" -replace '\\', '/') -Force
 $Global:EnumCadConfig = Initialize-CadConfig
