@@ -125,4 +125,38 @@ function Initialize-CadConfig {
     return $global:EnumCadObj
 }
 
-Export-ModuleMember -Function Initialize-CadConfig
+<#
+.SYNOPSIS
+    Pauses execution using a human-like delay with a triangular or uniform distribution.
+#>
+function Start-HumanPause {
+    [CmdletBinding()]
+    param(
+        [Parameter()]
+        [int]$MinMs = 800,
+
+        [Parameter()]
+        [int]$MaxMs = 2000,
+
+        [Parameter()]
+        [bool]$Triangular = $true
+    )
+
+    # Generate random value based on distribution type
+    $rndNum = if ($Triangular) {
+        # Proper triangular distribution approximation (sum of two uniforms / 2)
+        ((Get-Random -Minimum 0.0 -Maximum 1.0) + (Get-Random -Minimum 0.0 -Maximum 1.0)) / 2
+    }
+    else {
+        # Uniform distribution
+        (Get-Random -Minimum 0.0 -Maximum 1.0)
+    }
+
+    # Calculate final millisecond delay
+    $ms = [Math]::Floor($rndNum * ($MaxMs - $MinMs + 1) + $MinMs)
+
+    # Execute sleep
+    Start-Sleep -Milliseconds $ms
+}
+
+Export-ModuleMember -Function Initialize-CadConfig, Start-HumanPause
