@@ -1,0 +1,8 @@
+# Exclude local PowerShell test execution scripts and harnesses
+test-harness.ps1
+tests/
+*.test.ps1
+
+# Exclude local CAD runtime data outputs and caches (e.g., tx.fb.2026 data root)
+tx.fb.*/
+*.log
